@@ -17,6 +17,8 @@ builder.Services.AddScoped<PlayerMapper>();
 builder.Services.AddScoped<ITeamService,TeamService>();
 builder.Services.AddScoped<IPlayerService,PlayerService>();
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddDbContext<BaseDbContext>();
@@ -33,8 +35,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<ExceptionMiddleware>();
+//app.UseMiddleware<ExceptionMiddleware>();
 
+app.UseExceptionHandler(_ => { });
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

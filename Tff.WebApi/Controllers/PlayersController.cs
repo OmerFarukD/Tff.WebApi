@@ -46,4 +46,11 @@ public class PlayersController (IPlayerService playerService) : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("getbyid")]
+    public IActionResult GetById(int id)
+    {
+        var result = playerService.GetById(id);
+        return Ok(result);
+    }
+
 }

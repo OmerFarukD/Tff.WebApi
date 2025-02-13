@@ -11,8 +11,10 @@ public class GlobalExceptionHandler : IExceptionHandler
     {
         if(exception is NotFoundException notFoundException)
         {
+
+            httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = 404;
-            object problemDetails = new
+            ProblemDetails problemDetails = new ProblemDetails
             {
                 Title = "Notfound Exception",
                 Detail = notFoundException.Message,
@@ -29,6 +31,7 @@ public class GlobalExceptionHandler : IExceptionHandler
 
         if (exception is BusinessException businessException)
         {
+            httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = 400;
             ProblemDetails problemDetails1 = new ProblemDetails
             {

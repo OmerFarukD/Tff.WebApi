@@ -1,4 +1,8 @@
+using System.Reflection;
+using Tff.WebApi.Exceptions;
 using Tff.WebApi.Repositories;
+using Tff.WebApi.Services.Abstract;
+using Tff.WebApi.Services.Concrete;
 using Tff.WebApi.Services.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +13,12 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<PlayerMapper>();
 
+
+builder.Services.AddScoped<ITeamService,TeamService>();
+builder.Services.AddScoped<IPlayerService,PlayerService>();
+
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddDbContext<BaseDbContext>();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -22,6 +32,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

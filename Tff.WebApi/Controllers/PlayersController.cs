@@ -1,58 +1,49 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Tff.WebApi.Exceptions.Types;
 using Tff.WebApi.Models;
 using Tff.WebApi.Models.Dtos.Players;
-using Tff.WebApi.Repositories;
-using Tff.WebApi.Services.Mappers;
+using Tff.WebApi.Services.Abstract;
+
 
 namespace Tff.WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class PlayersController (BaseDbContext context,PlayerMapper playerMapper) : ControllerBase
+public class PlayersController (IPlayerService playerService) : ControllerBase
 {
 
     [HttpPost("add")]
     public IActionResult Add(PlayerAddRequestDto playerAddRequestDto)
     {
-        Player player = playerMapper.ConvertToEntity(playerAddRequestDto);
 
-        context.Add(player);
-        context.SaveChanges();
+            var result = playerService.Add(playerAddRequestDto);
+            return Ok(result);
 
-        return Ok(player);
     }
 
     [HttpGet("getall")]
     public IActionResult GetAll()
     {
-        List<Player> players = context.Players.Include(x=>x.Team).ToList();
-        List<PlayerResponseDto> responses = playerMapper.ConvertToResponseList(players);
-        return Ok(responses);
+        var result = playerService.GetAll();
+        return Ok(result);
+    }
+
+    [HttpPut("update")]
+    public IActionResult Update(PlayerUpdateRequestDto dto)
+    {
+        var result = playerService.Update(dto);
+        return Ok(result);
     }
 
 
-
-
-    [HttpGet]
-    public IActionResult Deneme()
+    [HttpDelete("delete")]
+    public IActionResult Delete(int id)
     {
-        Player player1 = new Player
-        {
-            Id = 1,
-            Name = "dENEME",
-            Number = 5,
-            Position = "Forver",
-            Surname = "Icardi",
+        var result = playerService.Delete(id);
 
-            Team = new Team { Id = 1, Name = "Galatasaray" },
-            TeamId = 1
-        };
-
-        PlayerResponseDto dto = player1;
-
-        return Ok(dto);
+        return Ok(result);
     }
 
 }

@@ -53,4 +53,12 @@ public sealed class TeamsController(ITeamService teamService) : ControllerBase
         return Ok(result);
     }
 
+
+    [HttpGet("details")]
+    public IActionResult GetDetails(int id)
+    {
+        var result = teamService.GetDetailsById(id);
+        return Ok(result);
+    }
+
 }

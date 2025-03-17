@@ -13,5 +13,7 @@ public interface ITeamService
 
     TeamResponseDto? GetById(int id);
 
+    TeamDetailsResponseDto? GetDetailsById(int id);
+
 
 }

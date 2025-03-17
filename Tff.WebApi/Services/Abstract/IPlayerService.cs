@@ -17,4 +17,7 @@ public interface IPlayerService
     List<PlayerResponseDto> GetAllByTeamId(int teamId);
 
     List<PlayerResponseDto> GetAllByTeamAndPosition(int teamId, string position);
+    
+    
+    
 }

@@ -47,6 +47,14 @@ public class TeamService(BaseDbContext context,IMapper mapper) : ITeamService
         return response;
     }
 
+    public TeamDetailsResponseDto GetDetailsById(int id)
+    {
+        Team team = context.Teams.Include(x => x.Players)
+            .SingleOrDefault(x=> x.Id==id);
+        var response = mapper.Map<TeamDetailsResponseDto>(team);
+        return response;
+    }
+
     public string Update(TeamUpdateRequestDto dto)
     {
         bool isPresent = context.Teams.Any(x=>x.Id == dto.Id);

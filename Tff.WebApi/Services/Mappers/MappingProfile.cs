@@ -14,6 +14,13 @@ public sealed class MappingProfile : Profile
         CreateMap<Team,TeamResponseDto>();
         CreateMap<TeamUpdateRequestDto,Team>();
 
+        CreateMap<Player, TeamPlayersDetailDto>()
+            .ForMember(x => x.FullName, opt =>
+                opt.MapFrom(p => $"{p.Name} {p.Surname}")
+            );
+
+        CreateMap<Team, TeamDetailsResponseDto>();
+
 
 
         CreateMap<Player,PlayerResponseDto>();

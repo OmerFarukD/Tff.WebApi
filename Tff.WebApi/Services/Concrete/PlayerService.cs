@@ -75,7 +75,7 @@ public sealed class PlayerService(BaseDbContext context, IMapper mapper) : IPlay
 
     public PlayerResponseDto? GetById(int id)
     {
-        Player player = context.Players.Find(id);
+        Player player = context.Players.Include(x => x.Team).SingleOrDefault(x => x.Id == id);
         if(player is null)
         {
             throw new NotFoundException("Oyuncu Bulunamadı");

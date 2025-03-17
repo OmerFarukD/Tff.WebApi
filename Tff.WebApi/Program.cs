@@ -7,9 +7,25 @@ using Tff.WebApi.Services.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 
+string ReactCors = "ReactCors";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(ReactCors, policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddControllers();
+
+
+
 
 builder.Services.AddScoped<PlayerMapper>();
 
@@ -40,6 +56,7 @@ if (app.Environment.IsDevelopment())
 app.UseExceptionHandler(_ => { });
 app.UseHttpsRedirection();
 
+app.UseCors(ReactCors);
 app.UseAuthorization();
 
 app.MapControllers();
